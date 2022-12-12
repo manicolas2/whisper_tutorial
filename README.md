@@ -25,6 +25,7 @@ python3.9 mp4_to_mp3.py <path to the mp4 file> <path to the mp3 file>
 ## 3. whisper_test.py
 
 model - tiny, base, small, medium, large
+
 to translate - True / False (whether to translate the transcription to English)
 
 ```
