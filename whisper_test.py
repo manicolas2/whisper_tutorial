@@ -1,15 +1,16 @@
 import whisper
 import datetime
 import sys
+import json 
 
 #######################################
 # argv[1] - model (tiny, base, small, medium, large)
-# argv[2] - path to file to the mp3 file
+# argv[2] - path to file to transcribe
 # argv[3] - language
 # argv[4] - to translate? (True or False)
 # argv[5] - srt file name
+# argv[6] - json file name
 #######################################
-
 
 
 if __name__ == "__main__":
@@ -17,6 +18,10 @@ if __name__ == "__main__":
     model = whisper.load_model(sys.argv[1])
     translate = str(sys.argv[4]).lower()
     result = model.transcribe(sys.argv[2], fp16=False, language=sys.argv[3], task="translate") if translate == "true" else model.transcribe(sys.argv[2], fp16=False, language=sys.argv[3])
+
+    with open(sys.argv[6], "wb") as jsn:
+        jsn.write(json.dumps(result, ensure_ascii=False).encode("utf8"))
+
     segments = result["segments"]
 
     for segment in segments:
@@ -28,3 +33,4 @@ if __name__ == "__main__":
 
         with open(sys.argv[5], "a", encoding="utf-8") as srt:
             srt.write(segment)
+
